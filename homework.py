@@ -1,5 +1,6 @@
 class InfoMessage:
     """Информационное сообщение о тренировке."""
+
     def __init__(self,
                  training_type,
                  duration: float,
@@ -18,6 +19,8 @@ class InfoMessage:
                 f' Дистанция:{self.distance: .3f} км;'
                 f' Ср. скорость:{self.speed: .3f} км/ч;'
                 f' Потрачено ккал:{self.calories: .3f}.')
+
+
 class Training:
     """Базовый класс тренировки."""
     LEN_STEP: float = 0.65
@@ -70,8 +73,8 @@ class Running(Training):
 
     def get_spent_calories(self) -> float:
         return ((self.CALORIES_MEAN_SPEED_MULTIPLIER
-                * self.get_mean_speed()
-                + self.CALORIES_MEAN_SPEED_SHIFT)
+                 * self.get_mean_speed()
+                 + self.CALORIES_MEAN_SPEED_SHIFT)
                 * self.weight / self.M_IN_KM
                 * self.duration * self.MIN_IN_H)
 
@@ -97,15 +100,15 @@ class SportsWalking(Training):
         """Получить количество затраченных калорий."""
         mean_speed_msec: float = self.get_mean_speed() * self.KMH_IN_MSEC
 
-        self.calories: float = ((self.CALORIES_WEIGHT_MULTIPLIER * self.weight
-                                 + (mean_speed_msec
-                                    ** self.CALORIES_MEAN_SPEED_GRADE
-                                    / self.height)
-                                 * self.CALORIES_SPEED_HEIGHT_MULTIPLIER
-                                 * self.weight)
-                                * self.duration * self.MIN_IN_H)
+        spent_calories = ((self.CALORIES_WEIGHT_MULTIPLIER * self.weight
+                           + (mean_speed_msec
+                              ** self.CALORIES_MEAN_SPEED_GRADE
+                              / self.height)
+                           * self.CALORIES_SPEED_HEIGHT_MULTIPLIER
+                           * self.weight)
+                          * self.duration * self.MIN_IN_H)
 
-        return  self.calories
+        return spent_calories
 
 
 class Swimming(Training):
@@ -137,6 +140,7 @@ class Swimming(Training):
                           * self.CALORIES_WEIGHT_MULTIPLIER
                           * self.weight * self.duration)
         return spent_calories
+
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
