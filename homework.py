@@ -19,7 +19,8 @@ class InfoMessage:
                 f' Дистанция:{self.distance: .3f} км;'
                 f' Ср. скорость:{self.speed: .3f} км/ч;'
                 f' Потрачено ккал:{self.calories: .3f}.')
-    # про переменные понял. Боюсь опять головная боль будет с тестами, не буду менять.
+    # про переменные понял.
+    # Боюсь опять головная боль будет с тестами, не буду менять.
 
 
 class Training:
@@ -149,8 +150,8 @@ def read_package(workout_type: str, data: list) -> Training:
     }
     types = list(training_data.keys())
     if workout_type in types:  # такая проверка не будет корректно работать
-        is_valid = training_data[workout_type](*data)  # нужно писать отдельную функцию для невалидных ключей/пакетов
-        return is_valid
+        is_valid = training_data[workout_type](*data)  # нужно писать отдельную функцию
+        return is_valid  # для невалидных ключей/пакетов
 
 
 def main(training: Training) -> None:
