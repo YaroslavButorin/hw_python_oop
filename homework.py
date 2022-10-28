@@ -66,13 +66,7 @@ class Running(Training):
     CALORIES_MEAN_SPEED_MULTIPLIER: int = 18
     CALORIES_MEAN_SPEED_SHIFT: float = 1.79
 
-    def _init__(self,  # не понял про переопределение, это же конструктор
-                action: int,
-                duration: float,
-                weight: float
-                ) -> None:
-        super().__init__(action, duration, weight)
-
+    # разобрался
     def get_spent_calories(self) -> float:
         return ((self.CALORIES_MEAN_SPEED_MULTIPLIER
                  * self.get_mean_speed()
@@ -148,16 +142,29 @@ def read_package(workout_type: str, data: list) -> Training:
         'RUN': Running,
         'WLK': SportsWalking
     }
-    types = list(training_data.keys())
-    if workout_type in types:  # такая проверка не будет корректно работать
+    if workout_type in training_data.keys():
         is_valid = training_data[workout_type](*data)
-        # нужно писать отдельную функцию
-        return is_valid  # для невалидных ключей/пакетов
+        return is_valid
+    # тут мы просто проверяем есть ли ключ в словаре
+    # но нет инструкций что делать если нету. тобишь esle/elif
+
+
+# не будет работать потому что мы данные посылаем в определённом формате
+# и на каждый тип тренировки у нас есть свой подкласс
+# а класса для обработки неизвестных значений у нас нет.
+# отсюда и AttributeError: 'NoneType' object has no attribute 'show_training_info'
+# можно сделать try/except в read_package и в main
+# Хотя даже можно обойтись только в main
 
 
 def main(training: Training) -> None:
     """Главная функция."""
-    print(training.show_training_info().get_message())
+    try:
+        print(training.show_training_info().get_message())
+    except AttributeError:
+        print('Неизвестный пакет')
+    # это поможет программе работать дальше
+    # если придет неизвестный ключ
 
 
 if __name__ == '__main__':
@@ -165,6 +172,7 @@ if __name__ == '__main__':
         ('SWM', [720, 1, 80, 25, 40]),
         ('RUN', [15000, 1, 75]),
         ('WLK', [9000, 1, 75, 180]),
+        ('QWERTY', [9000, 1, 75, 180]),  # неизвестный пакет
     ]
 
     for workout_type, data in packages:
