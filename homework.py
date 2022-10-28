@@ -152,7 +152,8 @@ def read_package(workout_type: str, data: list) -> Training:
 # не будет работать потому что мы данные посылаем в определённом формате
 # и на каждый тип тренировки у нас есть свой подкласс
 # а класса для обработки неизвестных значений у нас нет.
-# отсюда и AttributeError: 'NoneType' object has no attribute 'show_training_info'
+# отсюда и
+# AttributeError: 'NoneType' object has no attribute 'show_training_info'
 # можно сделать try/except в read_package и в main
 # Хотя даже можно обойтись только в main
 
