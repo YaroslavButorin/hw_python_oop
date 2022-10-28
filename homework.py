@@ -150,7 +150,8 @@ def read_package(workout_type: str, data: list) -> Training:
     }
     types = list(training_data.keys())
     if workout_type in types:  # такая проверка не будет корректно работать
-        is_valid = training_data[workout_type](*data)  # нужно писать отдельную функцию
+        is_valid = training_data[workout_type](*data)
+        # нужно писать отдельную функцию
         return is_valid  # для невалидных ключей/пакетов
 
 
